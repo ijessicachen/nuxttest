@@ -1,0 +1,26 @@
+services:
+  node:
+    privileged: true
+    #image: node:latest
+    build: ./
+    user: "node"
+    # trun on interactive mode
+    stdin_open: true
+    tty: true
+    # the command directive will using working_dir to start
+    #working_dir: /home/node/app/hello-framework
+    working_dir: /home/node/app
+    #environment:
+    #  - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "5175"
+    ports: # use if it is necessary to expose the container to the host machine
+      - "5175:5175"
+    # the --host will allow remote connections
+    # we need execute npm install first
+    #command: bash -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173" 
+    command: bash -c "pnpm install --force && pnpm dev --host 0.0.0.0 --port 5175" 
+    # use bash to get startd,
+    #command: "bash"
